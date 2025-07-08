@@ -67,13 +67,14 @@ $tamanho-img-pfp: 4.5vh;
   }
 
   .app-bar-buttons {
-    padding: $padding-botoes;
+    height: 100%;
     width: -webkit-fill-available;
     position: relative;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: $gap-botoes;
+    gap: $gap-botoes; 
+    padding-right: $gap-botoes;
     z-index: 1;
 
     .app-bar-button {
