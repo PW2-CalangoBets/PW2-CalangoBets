@@ -1,0 +1,17 @@
+.landingPage-container {
+    font-family: 'Pokemon Solid', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #101728;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-size: 1.25rem;
+    }
+}  
