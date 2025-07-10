@@ -4,12 +4,12 @@ import { useState } from 'react';
 import StandardHeader from '../../components/standardHeader/StandardHeader';
 import HeaderLink from '../../components/headerLinks/HeaderLinks';
 import HeaderButton from '../../components/headerButton/HeaderButton';
-import CommonInput from '../../components/commonInput/CommonInput';
-import CommonButton from '../../components/commonButton/CommonButton';
+import DepositModal from '../../components/depositModal/DepositModal';
 
 const DepositPage = () => {
     const navigate = useNavigate();
     const [actualMoneyAmmount, setActualMoneyAmmount] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(true);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
     const [amount, setAmount] = useState('');
 
@@ -17,15 +17,6 @@ const DepositPage = () => {
         navigate(`/${endereco}`);
     };
 
-    const handleSubmit = () => {
-        if (!amount || isNaN(Number(amount))) {
-            alert("Por favor, insira um valor válido.");
-            return;
-        }
-        alert(`${activeTab === 'deposit' ? 'Depósito' : 'Saque'} de R$ ${amount} realizado com sucesso!`);
-        setAmount('');
-    };
-    
     return (
         <div className="DepositPage-container">
             <StandardHeader>
@@ -43,18 +34,16 @@ const DepositPage = () => {
                 </div>
             </div>
 
-            <div className='modal-div'>
-                <div className='modal-container'>
-                    <div>
-                        <h1>Sacar</h1>
-                    </div>
-                    <div>
-                        <CommonInput label='Insira o valor' type='number' onChange={() => {}}/>
-                        <CommonInput label='Insira a chave pix' type='text' onChange={() => {}}/>
-                        <CommonButton label='Realizar o saque' onClick={() => {}}/>
-                    </div>
-                </div>
-            </div>
+            {isModalOpen && (
+                <DepositModal
+                    operation={activeTab === 'deposit' ? 'deposit' : 'sake'}
+                    onClick={() => {
+                        setIsModalOpen(false); 
+                    }}
+                    onChagePix={() => { }}
+                    onChangeValue={() => { }}
+                />
+            )}
         </div>
     );
 };
