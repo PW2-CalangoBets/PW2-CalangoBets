@@ -7,6 +7,7 @@ import HeaderButton from '../../components/headerButton/HeaderButton';
 
 const DepositPage = () => {
     const navigate = useNavigate();
+    const [actualMoneyAmmount, setActualMoneyAmmount] = useState(0);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
     const [amount, setAmount] = useState('');
 
@@ -34,33 +35,20 @@ const DepositPage = () => {
                 <HeaderButton label="Deposite" isSpecial={true} onClick={() => handleClick('deposit')} />
             </StandardHeader>
 
-            <div className="deposit-withdraw-container">
-                <div className="tab-buttons">
-                    <button 
-                        className={activeTab === 'deposit' ? 'active' : ''} 
-                        onClick={() => setActiveTab('deposit')}
-                    >
-                        Depósito
-                    </button>
-                    <button 
-                        className={activeTab === 'withdraw' ? 'active' : ''} 
-                        onClick={() => setActiveTab('withdraw')}
-                    >
-                        Saque
-                    </button>
+            <div className='actual-Money-container'>
+                <div className='actual-Money-div'>
+                    <p>{actualMoneyAmmount} 🪙</p>
                 </div>
+            </div>
 
-                <div className="form-section">
-                    <h2>{activeTab === 'deposit' ? 'Realizar Depósito' : 'Realizar Saque'}</h2>
-                    <input 
-                        type="number" 
-                        placeholder="Valor em R$"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                    />
-                    <button onClick={handleSubmit}>
-                        Confirmar {activeTab === 'deposit' ? 'Depósito' : 'Saque'}
-                    </button>
+            <div>
+                <div>
+                    <div>
+                        <h1>Escolha sua operação</h1>
+                    </div>
+                    <div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
