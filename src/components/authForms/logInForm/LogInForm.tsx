@@ -1,5 +1,6 @@
 import React from "react";
 import '../authForm.scss';
+import backwardsArrow from '../../../assets/backwardsArrow.png';
 
 type LogInFormProps = {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -23,6 +24,8 @@ const LogInForm: React.FC<LogInFormProps> = ({
     return (
         <form onSubmit={handleSubmit} className="authentication-form">
             <main>
+                <img className="backwardsArrow" src={backwardsArrow} onClick={() => window.history.back()} alt="backwards arrow"></img>
+
                 <div className="title-and-logo"> 
                     <h1>Login</h1>
                     <img className="signup-form-img" src={image} alt="Little Aipom" />
@@ -48,6 +51,8 @@ const LogInForm: React.FC<LogInFormProps> = ({
                 />
 
                 <button type="submit">Entrar</button>
+
+                <a href="#/signup">Não possui uma conta? Sign Up</a>
             </main>
         </form>
     );

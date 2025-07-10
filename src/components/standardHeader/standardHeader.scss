@@ -46,6 +46,14 @@ $tamanho-img-pfp: 4.5vh;
     z-index: 0;
   }
 
+  .app-bar-home-button {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+  }
+
   h1 {
     font-family: 'CodecPro', sans-serif;
     font-size: 1.5rem;

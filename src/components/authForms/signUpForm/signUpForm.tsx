@@ -1,5 +1,6 @@
 import React from "react";
 import '../authForm.scss';
+import backwardsArrow from '../../../assets/backwardsArrow.png';
 
 type SignUpFormProps = {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -21,6 +22,8 @@ const SignUpForm = ({ handleSubmit, email, setEmail, password, setPassword, conf
             {success && <div className="success-msg">{success}</div>}
 
             <main>
+                <img className="backwardsArrow" src={backwardsArrow} onClick={() => window.history.back()} alt="backwards arrow"></img>
+
                 <div className="title-and-logo"> 
                     <h1>Sign Up</h1>
 
