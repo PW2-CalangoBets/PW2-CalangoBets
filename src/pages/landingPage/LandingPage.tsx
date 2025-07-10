@@ -22,6 +22,7 @@ const LandingPage = () => {
                 <HeaderLink linkName="Equipe Calango" onClick={() => handleClick('equipe')}/>
                 <HeaderButton label="Login" isSpecial={false} onClick={() => handleClick('login')}></HeaderButton>
                 <HeaderButton label="Cadastre-se" isSpecial={true} onClick={() => handleClick('signup')}></HeaderButton>
+                <HeaderButton label="Deposite" isSpecial={true} onClick={() => handleClick('deposit')}></HeaderButton>
             </StandardHeader>
             <div className="landingPageCard-container displayFlexCenter">
                 <div className='title-and-button-container occupy-height-100 occupy-50'>
