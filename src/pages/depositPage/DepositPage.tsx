@@ -5,17 +5,26 @@ import StandardHeader from '../../components/standardHeader/StandardHeader';
 import HeaderLink from '../../components/headerLinks/HeaderLinks';
 import HeaderButton from '../../components/headerButton/HeaderButton';
 import DepositModal from '../../components/depositModal/DepositModal';
+import CommonButton from '../../components/commonButton/CommonButton';
 
 const DepositPage = () => {
     const navigate = useNavigate();
-    const [actualMoneyAmmount, setActualMoneyAmmount] = useState(0);
+    const [actualMoneyAmount, setActualMoneyAmount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
-    const [amount, setAmount] = useState('');
 
     const handleClick = (endereco: string) => {
         navigate(`/${endereco}`);
     };
+
+    const handleOpenModal = (operation: 'deposit' | 'withdraw') => {
+        setActiveTab(operation);
+        setIsModalOpen(true);
+    }
+
+    const handleThicketsAmount = () => {
+        setActualMoneyAmount(100);
+    }
 
     return (
         <div className="DepositPage-container">
@@ -30,15 +39,37 @@ const DepositPage = () => {
 
             <div className='actual-Money-container'>
                 <div className='actual-Money-div'>
-                    <p>{actualMoneyAmmount} 🪙</p>
+                    <p>{actualMoneyAmount} 🪙</p>
                 </div>
+            </div>
+
+            <div className='infos'>
+                <div className='infos-container'>
+                    <h2 className="transactions-title">Área de Transações</h2>
+                    <p className="transactions-description">
+                        Bem-vindo à sua área de transações. Aqui você pode realizar saques e
+                        depósitos de forma segura, rápida e claro, ganhando muito xd.
+                    </p>
+                    <p className="transactions-terms">
+                        Ao prosseguir, você concorda com nossos <a href="/termos-de-uso" target="_blank">Termos de Uso</a> e <a href="/politica-de-privacidade" target="_blank">Política de Privacidade</a>.
+                    </p>
+                    <div className='select-operation-div'>
+                        <div className="transactions-actions">
+                            <CommonButton label='Depositar' onClick={() => handleOpenModal('deposit')} />
+                            <CommonButton label='Sacar' onClick={() => handleOpenModal('withdraw')} />
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
             {isModalOpen && (
                 <DepositModal
-                    operation={activeTab === 'deposit' ? 'deposit' : 'sake'}
+                    operation={activeTab}
                     onClick={() => {
-                        setIsModalOpen(false); 
+                        handleThicketsAmount();
+                        setIsModalOpen(false);
                     }}
                     onChagePix={() => { }}
                     onChangeValue={() => { }}
