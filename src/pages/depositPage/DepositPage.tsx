@@ -4,6 +4,8 @@ import { useState } from 'react';
 import StandardHeader from '../../components/standardHeader/StandardHeader';
 import HeaderLink from '../../components/headerLinks/HeaderLinks';
 import HeaderButton from '../../components/headerButton/HeaderButton';
+import CommonInput from '../../components/commonInput/CommonInput';
+import CommonButton from '../../components/commonButton/CommonButton';
 
 const DepositPage = () => {
     const navigate = useNavigate();
@@ -23,7 +25,7 @@ const DepositPage = () => {
         alert(`${activeTab === 'deposit' ? 'Depósito' : 'Saque'} de R$ ${amount} realizado com sucesso!`);
         setAmount('');
     };
-
+    
     return (
         <div className="DepositPage-container">
             <StandardHeader>
@@ -41,13 +43,15 @@ const DepositPage = () => {
                 </div>
             </div>
 
-            <div>
-                <div>
+            <div className='modal-div'>
+                <div className='modal-container'>
                     <div>
-                        <h1>Escolha sua operação</h1>
+                        <h1>Sacar</h1>
                     </div>
                     <div>
-                        
+                        <CommonInput label='Insira o valor' type='number' onChange={() => {}}/>
+                        <CommonInput label='Insira a chave pix' type='text' onChange={() => {}}/>
+                        <CommonButton label='Realizar o saque' onClick={() => {}}/>
                     </div>
                 </div>
             </div>
