@@ -1,8 +1,8 @@
 import './App.scss';
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from './pages/landingPage/LandingPage';
-import SignUpPage from './pages/signUpPage/SignUpPage';
-import LoginPage from './pages/logInPage/LogInPage';
+import SignUpPage from './pages/authPages/signUpPage/SignUpPage';
+import LoginPage from './pages/authPages/logInPage/LogInPage';
 
 function App() {
   return (
