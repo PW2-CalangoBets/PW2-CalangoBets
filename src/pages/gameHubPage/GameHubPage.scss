@@ -17,6 +17,7 @@
 
     h2 {
         font-family: 'CodecPro';
+        font-weight: 100;
         font-size: 2rem;
         margin-bottom: 1rem;
     }
@@ -33,5 +34,14 @@
 
     .occupy-height-100 {
         height: 100%;
+    }
+
+    .games-content-wrapper {
+        display: flex;
+    }
+
+    .games-carretel-column {
+        display: flex;
+        flex-direction: column;
     }
   }
