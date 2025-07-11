@@ -1,6 +1,6 @@
-import CommonButton from "../commonButton/CommonButton";
-import CommonInput from "../commonInput/CommonInput";
-import CommonRadioButton from "../commonRadioButton/CommonRadioButton";
+import CommonButton from "../common/commonButton/CommonButton";
+import CommonInput from "../common/commonInput/CommonInput";
+import CommonRadioButton from "../common/commonRadioButton/CommonRadioButton";
 import "./DepositModal.scss";
 
 type InputProps = {
@@ -9,8 +9,6 @@ type InputProps = {
     onChangeValue: () => void;
     onClick: () => void;
 };
-
-
 
 const DepositModal = ({ operation, onChangeValue, onChagePix, onClick }: InputProps) => {
 

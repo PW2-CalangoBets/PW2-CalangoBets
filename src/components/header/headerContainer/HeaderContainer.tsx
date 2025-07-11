@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import './standardHeader.scss';
+import './headerContainer.scss';
 import siteLogo from '/logo.png';
 
 type StandardHeaderProps = {

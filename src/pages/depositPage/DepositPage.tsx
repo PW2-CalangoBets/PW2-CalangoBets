@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import "./DepositPage.scss";
 import { useState } from 'react';
-import StandardHeader from '../../components/standardHeader/StandardHeader';
-import HeaderLink from '../../components/headerLinks/HeaderLinks';
-import HeaderButton from '../../components/headerButton/HeaderButton';
+import StandardHeader from '../../components/header/headerContainer/HeaderContainer';
+import HeaderLink from '../../components/header/headerLinks/HeaderLinks';
+import HeaderButton from '../../components/header/headerButton/HeaderButton';
 import DepositModal from '../../components/depositModal/DepositModal';
 
 const DepositPage = () => {

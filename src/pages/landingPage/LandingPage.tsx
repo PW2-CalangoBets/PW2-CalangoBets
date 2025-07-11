@@ -1,11 +1,9 @@
 import './landingPage.scss';
 import { useNavigate } from 'react-router-dom';
-import StandardHeader from '../../components/standardHeader/StandardHeader';
-import HeaderLink from '../../components/headerLinks/HeaderLinks';
-import HeaderButton from '../../components/headerButton/HeaderButton';
 import spinningWheel from '../../assets/spinningWheel.png';
 import womanInMegaphone from '../../assets/womanInMegaphone.png';
 import siteLogo from '/logo.png';
+import MainHeader from '../../components/header/MainHeader';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -16,14 +14,7 @@ const LandingPage = () => {
 
     return (
         <div className="landingPageCard-container">
-            <StandardHeader>
-                <HeaderLink linkName="Jogos" onClick={() => handleClick('jogos')}/>
-                <HeaderLink linkName="Sobre" onClick={() => handleClick('sobre')}/>
-                <HeaderLink linkName="Equipe Calango" onClick={() => handleClick('equipe')}/>
-                <HeaderButton label="Login" isSpecial={false} onClick={() => handleClick('login')}></HeaderButton>
-                <HeaderButton label="Cadastre-se" isSpecial={true} onClick={() => handleClick('signup')}></HeaderButton>
-                <HeaderButton label="Deposite" isSpecial={true} onClick={() => handleClick('deposit')}></HeaderButton>
-            </StandardHeader>
+            <MainHeader></MainHeader>
             <div className="landingPageCard-container displayFlexCenter">
                 <div className='title-and-button-container occupy-height-100 occupy-50'>
                     <div className='propaganda-title-container'>

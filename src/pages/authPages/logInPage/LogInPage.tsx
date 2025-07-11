@@ -21,7 +21,7 @@ export default function LogInPage() {
             const user = userCredential.user;
             console.log("Usuário logado:", user);
             sessionStorage.setItem("email", email);
-            navigate("/account");
+            navigate("/");
         } catch (err) {
             console.error(err);
             setError("Email ou senha inválidos.");
