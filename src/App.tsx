@@ -4,6 +4,7 @@ import HomePage from './pages/landingPage/LandingPage';
 import SignUpPage from './pages/authPages/signUpPage/SignUpPage';
 import LoginPage from './pages/authPages/logInPage/LogInPage';
 import DepositPage from './pages/depositPage/DepositPage';
+import GameHubPage from './pages/gameHubPage/GameHubPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/deposit" element={<DepositPage />} />
+        <Route path="/jogos" element={<GameHubPage />} />        
       </Routes>
     </Router>
   );
