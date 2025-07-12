@@ -1,19 +1,19 @@
-
 .transaction-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  gap: 8px;
   border: 1px solid black;
   padding: 8px 12px;
   border-radius: 4px;
   background-color: #f8f8f8;
+  align-items: center;
 }
 
-.transaction-label {
-  font-weight: bold;
-  color: #333;
-}
-
+.transaction-label,
 .transaction-value {
   font-weight: bold;
   color: #333;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
