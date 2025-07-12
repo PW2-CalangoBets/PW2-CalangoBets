@@ -4,6 +4,7 @@ import HomePage from './pages/landingPage/LandingPage';
 import SignUpPage from './pages/authPages/signUpPage/SignUpPage';
 import LoginPage from './pages/authPages/logInPage/LogInPage';
 import DepositPage from './pages/depositPage/DepositPage';
+import TeamPage from './pages/teamPage/TeamPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path='/equipe' element={<TeamPage />} />
         <Route path="/deposit" element={<DepositPage />} />
       </Routes>
     </Router>

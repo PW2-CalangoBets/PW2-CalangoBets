@@ -33,7 +33,7 @@ export default function SignUpPage() {
             }
 
             setSuccess("Conta criada com sucesso!");
-            navigate("/account");
+            navigate("/");
         } catch (err) {
             console.error(err);
             setError("Erro ao criar conta.");
