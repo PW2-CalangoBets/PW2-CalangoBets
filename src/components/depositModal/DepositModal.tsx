@@ -1,7 +1,7 @@
 import CommonButton from "../common/commonButton/CommonButton";
 import CommonInput from "../common/commonInput/CommonInput";
 import CommonRadioButton from "../common/commonRadioButton/CommonRadioButton";
-import "./DepositModal.scss";
+import "./depositModal.scss";
 
 type InputProps = {
     operation: string;

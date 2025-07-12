@@ -1,4 +1,4 @@
-import "./GamesCarretel.scss";
+import "./gamesCarretel.scss";
 
 type GameInfo = {
   name: string;

@@ -1,7 +1,7 @@
-import './GameHubPage.scss';
+import './gameHubPage.scss';
 import MainHeader from "../../components/header/MainHeader";
 import LastPlayed from '../../components/lastPlayed/LastPlayed';
-import GamesCarretel from '../../components/gamesCarretel/gamesCarretel';
+import GamesCarretel from '../../components/gamesCarretel/GamesCarretel';
 
 const userLastGames = [
   {

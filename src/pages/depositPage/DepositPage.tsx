@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import "./DepositPage.scss";
+import "./depositPage.scss";
 import { useState } from 'react';
 import StandardHeader from '../../components/header/headerContainer/HeaderContainer';
 import HeaderLink from '../../components/header/headerLinks/HeaderLinks';

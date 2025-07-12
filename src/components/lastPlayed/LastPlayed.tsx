@@ -1,4 +1,4 @@
-import './LastPlayed.scss';
+import './lastPlayed.scss';
 
 type GameInfo = {
   name?: string;
