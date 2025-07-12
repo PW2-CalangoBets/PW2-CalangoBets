@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import "./DepositPage.scss";
 import MainHeader from '../../components/header/MainHeader';
 import DepositModal from '../../components/depositModal/DepositModal';
@@ -14,7 +13,6 @@ type transactionType = {
 }
 
 const DepositPage = () => {
-    const navigate = useNavigate();
     const [actualMoneyAmount, setActualMoneyAmount] = useState(0);
     const [operationQuantity, setOperationQuantity] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,11 +27,6 @@ const DepositPage = () => {
             accountTotal: 200
         }]);
     }, []);
-
-    const handleClick = (endereco: string) => {
-        navigate(`/${endereco}`);
-    };
-
     const handleOpenModal = (operation: 'deposit' | 'withdraw') => {
         setActiveTab(operation);
         setIsModalOpen(true);
