@@ -6,13 +6,23 @@ import HeaderLink from '../../components/headerLinks/HeaderLinks';
 import HeaderButton from '../../components/headerButton/HeaderButton';
 import DepositModal from '../../components/depositModal/DepositModal';
 import CommonButton from '../../components/commonButton/CommonButton';
+import ItemList from '../../components/itemList/ItemList';
 
 const DepositPage = () => {
     const navigate = useNavigate();
     const [actualMoneyAmount, setActualMoneyAmount] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [operationQuantity, setOperationQuantity] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
 
+    const [transactions, setTransactions] = useState([
+        {
+            operation: "Depósito",
+            date: "12/12/2024",
+            value: 100,
+            accountTotal: 200
+        }
+    ])
     const handleClick = (endereco: string) => {
         navigate(`/${endereco}`);
     };
@@ -23,7 +33,15 @@ const DepositPage = () => {
     }
 
     const handleThicketsAmount = () => {
-        setActualMoneyAmount(100);
+        if(activeTab == "deposit") {
+           setActualMoneyAmount(actualMoneyAmount + operationQuantity); 
+        } else {
+            if(actualMoneyAmount - operationQuantity < 0) {
+                alert("Quantidade insuficiente para operação")
+            } 
+            else setActualMoneyAmount(actualMoneyAmount - operationQuantity); 
+        }
+        
     }
 
     return (
@@ -43,25 +61,28 @@ const DepositPage = () => {
                 </div>
             </div>
 
-            <div className='infos'>
-                <div className='infos-container'>
-                    <h2 className="transactions-title">Área de Transações</h2>
-                    <p className="transactions-description">
-                        Bem-vindo à sua área de transações. Aqui você pode realizar saques e
-                        depósitos de forma segura, rápida e claro, ganhando muito xd.
-                    </p>
-                    <p className="transactions-terms">
-                        Ao prosseguir, você concorda com nossos <a href="/termos-de-uso" target="_blank">Termos de Uso</a> e <a href="/politica-de-privacidade" target="_blank">Política de Privacidade</a>.
-                    </p>
-                    <div className='select-operation-div'>
-                        <div className="transactions-actions">
-                            <CommonButton label='Depositar' onClick={() => handleOpenModal('deposit')} />
-                            <CommonButton label='Sacar' onClick={() => handleOpenModal('withdraw')} />
-                        </div>
+            <div className="transactions-container-super">
+                <h2 className="transactions-title">Área de transações</h2>
 
+                <div className="transactions-header">
+                    <span className="balance-text">Saldo: R$ {actualMoneyAmount}</span>
+                    <div className="transactions-actions">
+                        <CommonButton label='Sacar' onClick={() => handleOpenModal('withdraw')} />
+                        <CommonButton label='Depositar' onClick={() => handleOpenModal('deposit')} />
                     </div>
                 </div>
 
+                <div className="transactions-list">
+                    {transactions.length > 0 && transactions.map((element, index) => (
+                        <ItemList
+                            key={index}
+                            operation={element.operation}
+                            date={element.date}
+                            value={element.value}
+                            accountTotal={element.accountTotal}
+                        />
+                    ))}
+                </div>
             </div>
 
             {isModalOpen && (
@@ -71,8 +92,8 @@ const DepositPage = () => {
                         handleThicketsAmount();
                         setIsModalOpen(false);
                     }}
-                    onChagePix={() => { }}
-                    onChangeValue={() => { }}
+                    onChangePix={() => { }}
+                    onChangeValue={(value: number) => {setOperationQuantity(value)}}
                 />
             )}
         </div>

@@ -1,0 +1,19 @@
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+}
+
+.transaction-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.transaction-value {
+  font-weight: bold;
+  color: #333;
+}

@@ -1,3 +1,4 @@
+
 import CommonButton from "../commonButton/CommonButton";
 import CommonInput from "../commonInput/CommonInput";
 import CommonRadioButton from "../commonRadioButton/CommonRadioButton";
@@ -5,14 +6,12 @@ import "./DepositModal.scss";
 
 type InputProps = {
     operation: string;
-    onChagePix: () => void;
-    onChangeValue: () => void;
+    onChangePix: () => void;
+    onChangeValue: (value: number) => void;
     onClick: () => void;
 };
 
-
-
-const DepositModal = ({ operation, onChangeValue, onChagePix, onClick }: InputProps) => {
+const DepositModal = ({ operation, onChangeValue, onChangePix, onClick }: InputProps) => {
 
     const isSake = operation === "withdraw";
 
@@ -23,10 +22,10 @@ const DepositModal = ({ operation, onChangeValue, onChagePix, onClick }: InputPr
                     <h1>{isSake ? "Saque" : "Depósito"}</h1>
                 </div>
                 <div className='sake-form'>
-                    <CommonInput label='Insira o valor' type='number' onChange={onChangeValue} />
+                    <CommonInput label='Insira o valor' type='number' onChange={(e) => onChangeValue(Number(e.target.value))} />
                     {isSake && (
                         <>
-                            <CommonInput label='Insira a chave pix' type='text' onChange={onChagePix} />
+                            <CommonInput label='Insira a chave pix (valor ficticio)' type='text' onChange={onChangePix} />
                             <div className='radioButton-container'>
                                 <CommonRadioButton label="Cpf" onChange={() => {}}/>
                                 <CommonRadioButton label="Telefone" onChange={() => {}}/>

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'CodecPro';
+  src: url('../../assets/fonts/CodecPro.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .DepositPage-container {
     font-family: 'Pokemon Solid', sans-serif;
     min-height: 100vh;
@@ -13,6 +20,7 @@
 }
 
 .actual-Money-div {
+    font-family: 'Pokemon Solid', sans-serif;
     background-color: #DCDCDC;
     border-radius: 10px;
     padding: 5px;
@@ -21,19 +29,51 @@
 }
 
 .infos {
+    font-family: 'Pokemon Solid', sans-serif;
     color: white;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    width: 100%;
+    
+}
+.transactions-container-super {
+     color: white;  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+  padding: 16px;
+  width: 90%;
+  max-width: 1000px;
+  margin-inline: auto;
+  border-radius: 8px;
+}
+
+.transactions-title {
+    padding-bottom: 50px;
 }
 
 .infos-container {
-    width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: rebeccapurple;
 }
 
+.transactions-div-content {
+    display: flex;
+    justify-content: space-between;
+    background-color: red;
+    width: 100vh;
+    align-items: center;
+}
 
+.transactions-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-around;
+    gap: 200px;
+    padding-bottom: 20px;
+}
 
 .transactions-actions {
     display: flex;
@@ -41,6 +81,7 @@
 }
 
 .transactions-title {
+    font-family: 'Pokemon Solid', sans-serif;
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 8px;
@@ -60,4 +101,30 @@
 .transactions-actions {
     display: flex;
     gap: 12px;
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+}
+
+.transaction-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.transaction-value {
+  font-weight: bold;
+  color: #333;
 }
