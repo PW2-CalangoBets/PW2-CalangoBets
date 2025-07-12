@@ -133,3 +133,48 @@
     display: flex;
     justify-content: space-around;
 }
+
+@media (max-width: 574px) {
+  .DepositPage-container {
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .actual-Money-div {
+    margin: 16px 8px;
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+
+  .transactions-container-super {
+    padding: 12px;
+    width: 100%;
+  }
+
+  .transactions-header {
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  .transactions-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .transactions-title {
+    font-size: 20px;
+    padding-bottom: 24px;
+  }
+
+  .table-label {
+    display: none; 
+  }
+
+  .modal-container {
+    width: 90%;
+    padding: 16px;
+  }
+
+}

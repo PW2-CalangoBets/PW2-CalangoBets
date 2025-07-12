@@ -1,12 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import "./DepositPage.scss";
-import { useState } from 'react';
 import StandardHeader from '../../components/standardHeader/StandardHeader';
 import HeaderLink from '../../components/headerLinks/HeaderLinks';
 import HeaderButton from '../../components/headerButton/HeaderButton';
 import DepositModal from '../../components/depositModal/DepositModal';
 import CommonButton from '../../components/commonButton/CommonButton';
 import ItemList from '../../components/itemList/ItemList';
+import { useEffect, useState } from 'react';
+
+type transactionType = {
+    operation: string,
+    date: string,
+    value: number,
+    accountTotal: number
+}
 
 const DepositPage = () => {
     const navigate = useNavigate();
@@ -14,15 +21,17 @@ const DepositPage = () => {
     const [operationQuantity, setOperationQuantity] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
+    const [transactions, setTransactions] = useState<transactionType[]>([]);
 
-    const [transactions, setTransactions] = useState([
-        {
+    useEffect(() => {
+        setTransactions([{
             operation: "Depósito",
             date: "12/12/2024",
             value: 100,
             accountTotal: 200
-        }
-    ])
+        }]);
+    }, []);
+
     const handleClick = (endereco: string) => {
         navigate(`/${endereco}`);
     };
@@ -33,24 +42,29 @@ const DepositPage = () => {
     }
 
     const handleThicketsAmount = () => {
-        if(activeTab == "deposit") {
-           setActualMoneyAmount(actualMoneyAmount + operationQuantity); 
-           handleCreateNewHistoric();
-        } else {
-            if(actualMoneyAmount - operationQuantity < 0) {
-                alert("Quantidade insuficiente para operação")
-            } 
-            else {
-                setActualMoneyAmount(actualMoneyAmount - operationQuantity);
+        if (operationQuantity > 0) {
+            if (activeTab == "deposit") {
+                setActualMoneyAmount(actualMoneyAmount + operationQuantity);
                 handleCreateNewHistoric();
-            } 
-        }   
+            } else {
+                if (actualMoneyAmount - operationQuantity < 0) {
+                    alert("Quantidade insuficiente para operação")
+                }
+                else {
+                    setActualMoneyAmount(actualMoneyAmount - operationQuantity);
+                    handleCreateNewHistoric();
+                }
+            }
+        } else {
+            alert("Insira um número válido");
+        }
+
     }
 
     const handleCreateNewHistoric = () => {
         transactions.push({
             operation: handleActiveTabNameToString(),
-            date: new Date(Date.now()).toLocaleDateString().slice(0,10),
+            date: new Date(Date.now()).toLocaleDateString().slice(0, 10),
             value: operationQuantity,
             accountTotal: actualMoneyAmount
         });
@@ -58,13 +72,13 @@ const DepositPage = () => {
 
     const handleActiveTabNameToString = () => {
         switch (activeTab) {
-            case("deposit"):
+            case ("deposit"):
                 return "Depósito";
-            case("withdraw"):
+            case ("withdraw"):
                 return "Saque";
         }
-    } 
- 
+    }
+
     return (
         <div className="DepositPage-container">
             <StandardHeader>
@@ -99,7 +113,7 @@ const DepositPage = () => {
                         <p>Data</p>
                         <p>Valor</p>
                         <p>Saldo da conta</p>
-                    </div>  
+                    </div>
                     {transactions.length > 0 && transactions.map((element, index) => (
                         <ItemList
                             key={index}
@@ -119,8 +133,8 @@ const DepositPage = () => {
                         handleThicketsAmount();
                         setIsModalOpen(false);
                     }}
-                    onChangePix={() => { }}
-                    onChangeValue={(value: number) => {setOperationQuantity(value)}}
+                    onChangeValue={(value: number) => { setOperationQuantity(value) }}
+                    onClose={() => setIsModalOpen(false)}
                 />
             )}
         </div>

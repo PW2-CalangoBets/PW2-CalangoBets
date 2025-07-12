@@ -1,19 +1,34 @@
 .transaction-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr; 
-  gap: 8px;
-  border: 1px solid black;
-  padding: 8px 12px;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 8px;
+    border: 1px solid black;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    align-items: center;
 }
 
 .transaction-label,
 .transaction-value {
-  font-weight: bold;
-  color: #333;
-  white-space: nowrap; 
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 574px) {
+    .transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 10px;
+    }
+
+    .transaction-label,
+    .transaction-value {
+        font-size: 14px;
+        width: 100%;
+    }
 }
