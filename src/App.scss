@@ -1,5 +1,12 @@
 @import './styles/imports/generalImports';
 
+:root{
+    --primary-background: #101728;
+    --primary-font-color: white;
+    --secondary-font-color: #D8BA3F;
+    --primary-border-color: #411d6f;
+}
+
 .App {
     @include flexCenter();
     width: 100vw;

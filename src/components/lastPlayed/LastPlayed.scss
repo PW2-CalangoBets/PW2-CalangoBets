@@ -1,0 +1,25 @@
+.last-played-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-rectangle {
+  border: 2px solid var(--primary-border-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  background: var(--primary-background);
+  color: var(--primary-font-color);
+}
+
+.game-rectangle.clickable {
+  cursor: pointer;
+}
+
+.game-rectangle img {
+  height: 100%;
+  width: 80px;
+  object-fit: cover;
+  margin-right: 16px;
+  border-radius: 0;
+}

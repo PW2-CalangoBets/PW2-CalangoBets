@@ -4,6 +4,7 @@ import HomePage from './pages/landingPage/LandingPage';
 import SignUpPage from './pages/authPages/signUpPage/SignUpPage';
 import LoginPage from './pages/authPages/logInPage/LogInPage';
 import DepositPage from './pages/depositPage/DepositPage';
+import GameHubPage from './pages/gameHubPage/GameHubPage';
 import TeamPage from './pages/teamPage/TeamPage';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path='/equipe' element={<TeamPage />} />
         <Route path="/deposit" element={<DepositPage />} />
+        <Route path="/jogos" element={<GameHubPage />} />        
       </Routes>
     </Router>
   );
