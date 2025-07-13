@@ -1,3 +1,5 @@
+@import '../../styles/imports/generalImports';
+
 @font-face {
   font-family: 'CodecPro';
   src: url('../../assets/fonts/CodecPro.woff2') format('woff2');
@@ -15,6 +17,10 @@
 
     &:first-of-type {
         min-height: 90vh;
+    }
+
+    .fadeInUp {
+        animation: fadeInUp 1.4s ease-out both;
     }
 
     h2 {

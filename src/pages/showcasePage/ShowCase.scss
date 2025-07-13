@@ -1,0 +1,94 @@
+.showcase-page {
+    padding: 40px 60px;
+    background-color: #f9f9f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #666;
+        max-width: 500px;
+    }
+}
+
+.showcase-title {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 50px;
+    color: #222;
+}
+
+.showcase-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 40px;
+    gap: 30px;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+
+.showcase-container-copy {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+}
+
+
+.showcase-component {
+    flex: 1 1 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.showcase-description {
+    flex: 1 1 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.common-components {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.common-components>* {
+    min-width: 120px;
+}
+
+@media (max-width: 768px) {
+    .showcase-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .showcase-component,
+    .showcase-description {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .showcase-page {
+        padding: 20px;
+    }
+}

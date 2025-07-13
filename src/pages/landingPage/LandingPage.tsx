@@ -27,7 +27,7 @@ const LandingPage = () => {
                 </div>
             </div>
             <div className="landingPageCard-container displayFlexCenterOrderByColumn">
-                <h1 className='what-this-is'>
+                <h1 className='what-this-is fadeInUp'>
                     A <b className='purple'>CalangoBet</b> é uma startup que busca conscientizar as pessoas.
                 </h1>
                 <h2 className='what-this-is-description'>
@@ -37,7 +37,7 @@ const LandingPage = () => {
             <div className="landingPageCard-container displayFlexCenter">
                 <div className='our-mission-container occupy-height-100 occupy-width-50'>
                     <div className='our-mission-title-container'>
-                        <h1 className='title'>Conscientizar o Brasil</h1>
+                        <h1 className='title fadeInUp'>Conscientizar o Brasil</h1>
                         <h2 className='subtitle'>Aqui, a aposta é só de brincadeira, mas a reflexão é pra valer: entender de perto como funcionam as apostas e por que é importante ter cuidado com elas.</h2>
                     </div>
                 </div>
