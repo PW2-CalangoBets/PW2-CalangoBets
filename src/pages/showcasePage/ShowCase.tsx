@@ -49,7 +49,7 @@ const ShowCase = () => {
 
     return (
         <div className="showcase-page">
-            <h1 className="showcase-title">Vitrine dos componentes</h1>
+            <h1 className="showcase-title-op">Vitrine dos componentes</h1>
 
             <div className="showcase-container">
                 <div >
@@ -95,7 +95,7 @@ const ShowCase = () => {
                 </div>
             </div>
             <div className="showcase-container">
-                <div>
+                <div className="showcase-component">
                     <LogInForm
                         handleSubmit={() => { }}
                         email={"Geregotango@gmail.com"}
@@ -114,7 +114,7 @@ const ShowCase = () => {
             </div>
 
             <div className="showcase-container">
-                <div>
+                <div className="showcase-component">
                     <GamesCarretel height="240px" title="Em alta" games={availableGames} />
                     <LastPlayed games={userLastGames} count={3} width='400px' height='60px' />
                 </div>
@@ -143,7 +143,7 @@ const ShowCase = () => {
                     <ItemList
                         key={1}
                         operation={"Depósito"}
-                        date={new Date(Date.now()).toLocaleString()}
+                        date={new Date(Date.now()).toLocaleDateString().slice(0, 10)}
                         value={100}
                         accountTotal={1000}
                     />

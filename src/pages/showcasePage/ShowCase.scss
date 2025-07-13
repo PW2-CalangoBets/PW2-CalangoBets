@@ -2,12 +2,10 @@
     padding: 40px 60px;
     background-color: #f9f9f9;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     background-color: #101728;
     color: #333;
 
-    h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
+  
 
     p {
         font-size: 16px;
@@ -16,11 +14,17 @@
     }
 }
 
-.showcase-title {
+.showcase-title-op {
+    font-size: 28px;
+        margin-bottom: 10px;
     text-align: center;
     font-size: 36px;
     margin-bottom: 50px;
-    color: #222;
+    color: white;
+}
+
+showcase-title-op {
+    color: red;
 }
 
 .showcase-container {
@@ -74,21 +78,4 @@
 
 .common-components>* {
     min-width: 120px;
-}
-
-@media (max-width: 768px) {
-    .showcase-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .showcase-component,
-    .showcase-description {
-        flex: 1 1 100%;
-        text-align: center;
-    }
-
-    .showcase-page {
-        padding: 20px;
-    }
 }
