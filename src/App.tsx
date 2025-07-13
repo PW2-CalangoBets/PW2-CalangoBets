@@ -6,6 +6,7 @@ import LoginPage from './pages/authPages/logInPage/LogInPage';
 import DepositPage from './pages/depositPage/DepositPage';
 import GameHubPage from './pages/gameHubPage/GameHubPage';
 import TeamPage from './pages/teamPage/TeamPage';
+import AccountPage from './pages/accountPage/AccountPage';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path='/equipe' element={<TeamPage />} />
         <Route path="/deposit" element={<DepositPage />} />
-        <Route path="/jogos" element={<GameHubPage />} />        
+        <Route path="/jogos" element={<GameHubPage />} />
+        <Route path="/conta" element={<AccountPage />} />  
       </Routes>
     </Router>
   );

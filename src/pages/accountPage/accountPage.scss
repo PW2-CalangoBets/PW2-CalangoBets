@@ -1,0 +1,142 @@
+@font-face {
+  font-family: 'CodecPro';
+  src: url('../../assets/fonts/CodecPro.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.accountPage-container {
+  background-color: #101728;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  b {
+    font-weight: normal;
+    font-family: 'CodecPro';
+    color: #9340ff;
+  }
+
+  .account-content {
+    display: flex;
+    margin-top: 2rem;
+    gap: 2rem;
+    width: 95%;
+  }
+
+  .left-panel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .pfp-and-name-container{
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 6%;
+      margin-bottom: 6%;
+
+      .pfp-container {
+        $height: 8.5vw;  
+        position: relative;
+        width: $height;
+        height: $height;
+
+        .pfp {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 4.3px solid white;
+        }
+
+        .edit-pfp {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: #ff5757;
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      h1 {
+        font-family: 'CodecPro';
+        width: fit-content;
+        margin-right: 5%;
+        margin-top: 2.5rem;
+        font-size: 2rem;
+        color: white;
+
+        b {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .editing-container {
+      display: flex;
+      align-items: center;
+
+      button {
+        background-color: transparent;
+        border: 0px;
+        cursor: pointer;
+        height: 2.5rem;
+
+        img {
+          height: 75%;
+        }
+      }
+    }
+
+    p {
+      font-family: 'CodecPro';
+      margin: 0.2rem 0;
+      font-size: 1.5rem;
+      font-weight: bolder;
+
+      .editable {
+        font-family: 'CodecPro';
+        color: #9340ff;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .right-panel {
+    width: 50%;
+    background: #2e004f;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .fake-graph {
+      width: 100%;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid #9340ff;
+      border-radius: 12px;
+      color: #9340ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+  }
+}

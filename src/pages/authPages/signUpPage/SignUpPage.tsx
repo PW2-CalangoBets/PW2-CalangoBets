@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../database/firebase";
+import { auth, db } from "../../../database/firebase";
 import formIcon from "../../../assets/roulette.png";
 import "../authPages.scss";
 import { useNavigate } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
 import SignUpForm from "../../../components/authForms/signUpForm/signUpForm";
 
 export default function SignUpPage() {
@@ -30,6 +31,11 @@ export default function SignUpPage() {
 
             if (user.email) {
                 sessionStorage.setItem("email", user.email.toLowerCase());
+
+                await setDoc(doc(db, "contas", userCredential.user.uid), {
+                    email: email,
+                    saldo: 500,
+                });
             }
 
             setSuccess("Conta criada com sucesso!");
