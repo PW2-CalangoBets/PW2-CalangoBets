@@ -4,6 +4,7 @@ import './accountPage.scss';
 import { auth, db } from "../../database/firebase";
 import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import editPen from '../../assets/editPen.png';
+import siteLogo from '/logo.png';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -36,10 +37,10 @@ const AccountPage = () => {
   const [nome, setNome] = useState(' ');
   const [saldo, setSaldo] = useState('0');
   const data = {
-    labels: ['Dia 1', 'Dia 2', 'Dia 3', 'Dia 4', 'Dia 5', 'Dia 6', 'Dia 7'],
+    labels: ['07/07', '08/07', '09/07', '10/07', '11/07', '12/07', '13/07'],
     datasets: [
       {
-        label: 'Valores',
+        label: 'false',
         data: [300, 450, 200, 550, 500, 650, 1000],
         fill: false,
         borderColor: '#5ce1e6',
@@ -47,36 +48,56 @@ const AccountPage = () => {
       }
     ]
   };
+  const maxValue = data.datasets[0].data.reduce((a, b) => Math.max(a, b), 0);
+  const adjustedMax = Math.ceil(((maxValue) / 200) + 1) * 200;
+
   const options = {
     responsive: true,
     plugins: {
-      legend: { labels: { color: 'white' } },
+      legend: { display: false },
       tooltip: { enabled: true }
     },
     scales: {
       x: { ticks: { color: 'white' } },
-      y: { ticks: { color: 'white' } }
+      y: {
+        min: 0,
+        max: adjustedMax,
+        ticks: {
+          color: 'white',
+          stepSize: 200
+        }
+      }
     }
   };
 
   useEffect(() => {
-    const fetchPfp = async () => {
-      if (!user?.email) return;
+      const fetchPfp = async () => {
+          if (!user?.email) return;
 
-      const q = query(collection(db, "contas"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
+          // tenta pegar do localStorage
+          const cachedPfp = localStorage.getItem(`pfp-${user.email}`);
+          if (cachedPfp) {
+              setPfp(cachedPfp);
+          }
 
-      querySnapshot.forEach((d) => {
-        const data = d.data();
-        if (data.pfp) setPfp(data.pfp);
-        if (data.nome) setNome(data.nome);
-        if (data.telefone) setPhone(data.telefone);
-        if (data.saldo) setSaldo(data.saldo);
-        setDocId(d.id);
-      });
-    };
+          // busca do Firestore se não tiver no cache
+          const q = query(collection(db, "contas"), where("email", "==", user.email));
+          const querySnapshot = await getDocs(q);
 
-    fetchPfp();
+          querySnapshot.forEach((d) => {
+              const data = d.data();
+              if (data.nome) setNome(data.nome);
+              if (data.telefone) setPhone(data.telefone);
+              if (data.saldo) setSaldo(data.saldo);
+              if (data.pfp) {
+                  if (data.pfp == cachedPfp) return;
+                  setPfp(data.pfp);
+                  localStorage.setItem(`pfp-${user.email}`, data.pfp); // salva no cache
+              }
+          });
+      };
+
+      fetchPfp();
   }, [user]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,12 +121,20 @@ const AccountPage = () => {
   };
 
   const handleSave = async () => {
-    console.log(docId);
-    if (!docId) return;
-    await updateDoc(doc(db, "contas", docId), {
-      nome: nome,
-      telefone: phone
-    });
+    console.log(email);
+    if (!email) return;
+
+    const q = query(collection(db, "contas"), where("email", "==", email));
+    const snapshot = await getDocs(q);
+
+    if (!snapshot.empty) {
+      const docRef = snapshot.docs[0].ref;
+      await updateDoc(docRef, {
+        nome: nome,
+        telefone: phone
+      });
+    }
+
     setHasChanges(false);
     setEditing(false);
   };
@@ -114,13 +143,15 @@ const AccountPage = () => {
     <div className='accountPage-container'>
       <MainHeader />
 
+      <img src={siteLogo} className='logo-background'></img>
+
       <div className="account-content">
         <div className="left-panel">
           <div className='pfp-and-name-container'>
             <h1>{`Usuário `}<b>{`#${user?.uid.substring(0, 6)}`}</b></h1>
 
             <div className="pfp-container">
-              <img className="pfp" src={pfp || "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
+              <img className="pfp" src={pfp ||"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
               <button className="edit-pfp" onClick={handleChangePhoto}>
                 <img src={editPen} alt="Editar foto" />
               </button>
@@ -160,7 +191,7 @@ const AccountPage = () => {
           <p>Saldo: <b>{`${saldo}`} CDB (Calangos de Bolso)</b></p>
         </div>
 
-        <div className="right-panel" style={{ background: '#260e69', borderRadius: '1rem', padding: '1rem' }}>
+        <div className="right-panel">
           <Line data={data} options={options} />
         </div>
       </div>

@@ -20,13 +20,22 @@ const MainHeader = () => {
         const fetchPfp = async () => {
             if (!user?.email) return;
 
+            // tenta pegar do localStorage
+            const cachedPfp = localStorage.getItem(`pfp-${user.email}`);
+            if (cachedPfp) {
+                setPfp(cachedPfp);
+            }
+
+            // busca do Firestore se não tiver no cache
             const q = query(collection(db, "contas"), where("email", "==", user.email));
             const querySnapshot = await getDocs(q);
 
             querySnapshot.forEach((d) => {
                 const data = d.data();
                 if (data.pfp) {
+                    if (data.pfp == cachedPfp) return;
                     setPfp(data.pfp);
+                    localStorage.setItem(`pfp-${user.email}`, data.pfp); // salva no cache
                 }
             });
         };
@@ -37,7 +46,6 @@ const MainHeader = () => {
     return (
         <StandardHeader>
             <HeaderLink linkName="Jogos" onClick={() => handleClick('jogos')}/>
-            <HeaderLink linkName="Sobre" onClick={() => handleClick('sobre')}/>
             <HeaderLink linkName="Equipe Calango" onClick={() => handleClick('equipe')}/>
             {!user && (
                 <HeaderButton label="Login" isSpecial={false} onClick={() => handleClick('login')}></HeaderButton>
