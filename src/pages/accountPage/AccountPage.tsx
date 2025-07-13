@@ -41,7 +41,7 @@ const AccountPage = () => {
     labels: ['07/07', '08/07', '09/07', '10/07', '11/07', '12/07', '13/07'],
     datasets: [
       {
-        label: 'false',
+        label: 'Saldo',
         data: [300, 450, 200, 550, 500, 650, 1000],
         fill: false,
         borderColor: '#5ce1e6',
