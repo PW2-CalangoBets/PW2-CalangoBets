@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MainHeader from '../../components/header/MainHeader';
 import './accountPage.scss';
+import saveIcon from '../../assets/saveIcon.png';
 import { auth, db } from "../../database/firebase";
 import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import editPen from '../../assets/editPen.png';
@@ -168,8 +169,12 @@ const AccountPage = () => {
           <p>E-mail: <span>{email}</span></p>
           {editing ? (
             <>
-              <input value={nome} onChange={e => { setNome(e.target.value); setHasChanges(true); }} />
-              <input value={phone} onChange={e => { setPhone(e.target.value); setHasChanges(true); }} />
+              <div className='editing-container'>
+                <p>Nome: <input className='editable-input' value={nome} onChange={e => { setNome(e.target.value); setHasChanges(true); }} /></p>
+              </div>
+              <div className='editing-container'>
+                <p>Telefone: <input className='editable-input' value={phone} onChange={e => { setPhone(e.target.value); setHasChanges(true); }} /></p>
+              </div>
             </>
           ) : (
             <>
@@ -197,7 +202,9 @@ const AccountPage = () => {
       </div>
 
       {hasChanges && (
-        <button className="floating-save" onClick={handleSave}>Salvar</button>
+        <button className="floating-save" onClick={handleSave}>
+          <img src={saveIcon} alt="Salvar"/>
+        </button>
       )}
     </div>
   );
