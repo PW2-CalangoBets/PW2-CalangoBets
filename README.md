@@ -1,8 +1,36 @@
-# Informacoes
+# 🎰 CalangoBets — O Lado Sombrio das Apostas
 
-Antes de rodar a aplicação é preciso criar um arquivo .env contendo essas informações
+**CalangoBets** é uma aplicação construída com o objetivo de **alertar e conscientizar** sobre os riscos e prejuízos das apostas. Embora o projeto simule uma plataforma de apostas, seu real propósito é educativo: mostrar que a casa sempre vence — e você sempre perde :(.
 
-````
+---
+
+## 🚫 Por que este projeto?
+
+Atualmente, sites de apostas estão cada vez mais presentes na internet e infelizmente no cotidiano das pessoas, atraindo usuários com promessas de ganhos fáceis e rápidos. Dessa forma, o CalangoBets surge como uma crítica direta a esse sistema, demonstrando por meio da experiência de uso o quão **manipulador e perigoso** esse universo pode ser.
+
+---
+
+## 🔧 Tecnologias Utilizadas
+
+- ⚛️ React (Vite)
+- 🔥 Firebase (Auth, Firestore, Hosting)
+
+---
+
+## 🧪 Instalação e Execução Local
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/PW2-CalangoBets/PW2-CalangoBets.git
+cd PW2-CalangoBets
+```
+
+### 2. Configure as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto com as seguintes informações do Firebase:
+
+```env
 VITE_FIREBASE_API_KEY=<Ex.: >
 VITE_FIREBASE_AUTH_DOMAIN=<Ex.: bet.firebaseapp.com>
 VITE_FIREBASE_PROJECT_ID=<Ex.: bet>
@@ -11,9 +39,31 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=<Ex.: 839228193457>
 VITE_FIREBASE_APP_ID=<Ex.: 2:345790212345:web:b202de0acc5d4da0227445>
 ```
 
-Depois basta executar normalmente com 
+### 3. Instale as dependências
 
-```
+```bash
 npm install
-npm run typescrit
 ```
+
+### 4. Execute o projeto
+
+```bash
+npm run dev
+```
+
+---
+
+## 💡 Funcionalidades
+
+- Cadastro e login de usuários (Firebase Auth)
+- Interface semelhante a sites reais de apostas
+- Simulações viciantes com feedback enganoso
+- Alertas sobre perdas e armadilhas
+- Mensagens educativas contra o vício
+
+---
+
+## 🚨 Aviso importante
+
+Este projeto **não promove apostas reais**. Qualquer semelhança com casas de apostas é intencional para fins didáticos e críticos. O intuito é **expor os danos psicológicos, financeiros e sociais, dãã** provocados por esse tipo de sistema.
+
