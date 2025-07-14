@@ -1,69 +1,69 @@
-# React + TypeScript + Vite
+# 🎰 CalangoBets — O Lado Sombrio das Apostas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**CalangoBets** é uma aplicação construída com o objetivo de **alertar e conscientizar** sobre os riscos e prejuízos das apostas. Embora o projeto simule uma plataforma de apostas, seu real propósito é educativo: mostrar que a casa sempre vence — e você sempre perde :(.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚫 Por que este projeto?
 
-## Expanding the ESLint configuration
+Atualmente, sites de apostas estão cada vez mais presentes na internet e infelizmente no cotidiano das pessoas, atraindo usuários com promessas de ganhos fáceis e rápidos. Dessa forma, o CalangoBets surge como uma crítica direta a esse sistema, demonstrando por meio da experiência de uso o quão **manipulador e perigoso** esse universo pode ser.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🔧 Tecnologias Utilizadas
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- ⚛️ React (Vite)
+- 🔥 Firebase (Auth, Firestore, Hosting)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🧪 Instalação e Execução Local
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/PW2-CalangoBets/PW2-CalangoBets.git
+cd PW2-CalangoBets
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Configure as variáveis de ambiente
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Crie um arquivo `.env` na raiz do projeto com as seguintes informações do Firebase:
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_FIREBASE_API_KEY=<Ex.: >
+VITE_FIREBASE_AUTH_DOMAIN=<Ex.: bet.firebaseapp.com>
+VITE_FIREBASE_PROJECT_ID=<Ex.: bet>
+VITE_FIREBASE_STORAGE_BUCKET=<Ex.: bet.firebasestorage.app>
+VITE_FIREBASE_MESSAGING_SENDER_ID=<Ex.: 839228193457>
+VITE_FIREBASE_APP_ID=<Ex.: 2:345790212345:web:b202de0acc5d4da0227445>
 ```
+
+### 3. Instale as dependências
+
+```bash
+npm install
+```
+
+### 4. Execute o projeto
+
+```bash
+npm run dev
+```
+
+---
+
+## 💡 Funcionalidades
+
+- Cadastro e login de usuários (Firebase Auth)
+- Interface semelhante a sites reais de apostas
+- Simulações viciantes com feedback enganoso
+- Alertas sobre perdas e armadilhas
+- Mensagens educativas contra o vício
+
+---
+
+## 🚨 Aviso importante
+
+Este projeto **não promove apostas reais**. Qualquer semelhança com casas de apostas é intencional para fins didáticos e críticos. O intuito é **expor os danos psicológicos, financeiros e sociais, dãã** provocados por esse tipo de sistema.
+

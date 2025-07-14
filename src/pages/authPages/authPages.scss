@@ -1,0 +1,25 @@
+@import '../../styles/imports/generalImports';
+
+.logIn-container {
+    min-height: 100vh;
+    display: flex;
+    background-image: url('../../assets/enteringAccountBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem 1rem 1rem;
+}
+
+.signup-container {
+    min-height: 100vh;
+    display: flex;
+    background-image: url('../../assets/enteringAccountBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem 1rem 1rem;
+}

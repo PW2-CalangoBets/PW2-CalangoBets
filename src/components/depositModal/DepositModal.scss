@@ -1,0 +1,38 @@
+.modal-div {
+    display: flex;
+    justify-content: center;
+}
+
+
+.radioButton-container {
+    display: flex;
+    gap: 40px;
+}
+
+.modal-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+    background-color: white;
+    border-radius: 20px;
+    width: 600px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.sake-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
