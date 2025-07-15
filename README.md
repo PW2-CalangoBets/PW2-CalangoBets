@@ -31,7 +31,7 @@ cd PW2-CalangoBets
 Crie um arquivo `.env` na raiz do projeto com as seguintes informações do Firebase:
 
 ```env
-VITE_FIREBASE_API_KEY=<Ex.: >
+VITE_FIREBASE_API_KEY=<Ex.: ZazasRfDeKzraCec9eav-MnoFFTRuXHL758yV1as>
 VITE_FIREBASE_AUTH_DOMAIN=<Ex.: bet.firebaseapp.com>
 VITE_FIREBASE_PROJECT_ID=<Ex.: bet>
 VITE_FIREBASE_STORAGE_BUCKET=<Ex.: bet.firebasestorage.app>
@@ -49,6 +49,32 @@ npm install
 
 ```bash
 npm run dev
+```
+
+---
+
+## 🔬 Testes
+
+### 1. Instalacao Browser
+
+Para os testes de integração além das dependências instaladas anteriormente é preciso ter um navegador com suporte ao playwright. Isso pode ser feito rodando o script:
+
+```bash
+npm run install-playwright
+```
+
+### 2. Executar os Testes
+
+Abaixo estão os scripts disponíveis para executar os testes do projeto:
+
+- **`unit-test`**: executa apenas os testes unitários (usando Jest)
+- **`integration-test`**: executa apenas os testes de integração (usando Playwright)
+- **`test`**: executa ambos os testes (unitários e de integração)
+
+```bash
+npm run unit-test
+npm run integration-test
+npm run test
 ```
 
 ---

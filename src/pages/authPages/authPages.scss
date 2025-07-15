@@ -1,4 +1,4 @@
-@import '../../styles/imports/generalImports';
+@use '../../styles/imports/generalImports' as *;
 
 .logIn-container {
     min-height: 100vh;
