@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+
 import MainHeader from '../../components/header/MainHeader';
 import './accountPage.scss';
 import saveIcon from '../../assets/saveIcon.png';
-import { auth, db } from "../../database/firebase";
-import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import editPen from '../../assets/editPen.png';
 import siteLogo from '/logo.png';
 import { Line } from 'react-chartjs-2';
+import { useState } from 'react';
 import {
   Chart as ChartJS,
   LineElement,
@@ -27,13 +26,12 @@ ChartJS.register(
 );
 
 const AccountPage = () => {
-  const user = auth.currentUser;
   const [pfp, setPfp] = useState<string | null>(null);
   const [docId, setDocId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [email, setEmail] = useState(user?.email);
+  const [email, setEmail] = useState(null);
   const [phone, setPhone] = useState("(83) 99408-5691");
   const [nome, setNome] = useState(' ');
   const [saldo, setSaldo] = useState('0');
@@ -71,74 +69,9 @@ const AccountPage = () => {
     }
   };
 
-  useEffect(() => {
-      const fetchPfp = async () => {
-          if (!user?.email) return;
 
-          // tenta pegar do localStorage
-          const cachedPfp = localStorage.getItem(`pfp-${user.email}`);
-          if (cachedPfp) {
-              setPfp(cachedPfp);
-          }
 
-          // busca do Firestore se não tiver no cache
-          const q = query(collection(db, "contas"), where("email", "==", user.email));
-          const querySnapshot = await getDocs(q);
-
-          querySnapshot.forEach((d) => {
-              const data = d.data();
-              if (data.nome) setNome(data.nome);
-              if (data.telefone) setPhone(data.telefone);
-              if (data.saldo) setSaldo(data.saldo);
-              if (data.pfp) {
-                  if (data.pfp == cachedPfp) return;
-                  setPfp(data.pfp);
-                  localStorage.setItem(`pfp-${user.email}`, data.pfp); // salva no cache
-              }
-          });
-      };
-
-      fetchPfp();
-  }, [user]);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!docId || !e.target.files) return;
-
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64String = reader.result as string;
-
-      await updateDoc(doc(db, "contas", docId), { pfp: base64String });
-      setPfp(base64String);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleChangePhoto = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleSave = async () => {
-    console.log(email);
-    if (!email) return;
-
-    const q = query(collection(db, "contas"), where("email", "==", email));
-    const snapshot = await getDocs(q);
-
-    if (!snapshot.empty) {
-      const docRef = snapshot.docs[0].ref;
-      await updateDoc(docRef, {
-        nome: nome,
-        telefone: phone
-      });
-    }
-
-    setHasChanges(false);
-    setEditing(false);
-  };
+  
 
   return (
     <div className='accountPage-container'>
@@ -149,18 +82,18 @@ const AccountPage = () => {
       <div className="account-content">
         <div className="left-panel">
           <div className='pfp-and-name-container'>
-            <h1>{`Usuário `}<b>{`#${user?.uid.substring(0, 6)}`}</b></h1>
+            {/* <h1>{`Usuário `}<b>{`#${user?.uid.substring(0, 6)}`}</b></h1> */}
 
             <div className="pfp-container">
               <img className="pfp" src={pfp ||"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
-              <button className="edit-pfp" onClick={handleChangePhoto}>
+              <button className="edit-pfp">
                 <img src={editPen} alt="Editar foto" />
               </button>
               <input
                 type="file"
                 accept="image/*"
                 ref={fileInputRef}
-                onChange={handleFileChange}
+               
                 style={{ display: 'none' }}
               />
             </div>
@@ -202,7 +135,7 @@ const AccountPage = () => {
       </div>
 
       {hasChanges && (
-        <button className="floating-save" onClick={handleSave}>
+        <button className="floating-save">
           <img src={saveIcon} alt="Salvar"/>
         </button>
       )}
