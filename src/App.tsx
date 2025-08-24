@@ -22,7 +22,7 @@ function App() {
     if (token) {
       dispatch(loginSuccess(token));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

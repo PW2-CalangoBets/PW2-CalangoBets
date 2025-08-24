@@ -8,6 +8,7 @@ import { Line } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { getUserInfoApi } from '../../api/userApi';
 import { updateUser } from '../../api/userApi';
+import { getAllGamesApi } from '../../api/gameApi';
 
 import {
   Chart as ChartJS,
@@ -28,6 +29,16 @@ ChartJS.register(
   Legend
 );
 
+export type Game = {
+  id: string;
+  playerId: string;
+  gameName: string;
+  date: string;
+  accountCdb: number;
+  cdb: number;
+  result: "WIN" | "LOSE";
+};
+
 type UserInfo = {
   name: string;
   email: string;
@@ -39,39 +50,49 @@ type UserInfo = {
 
 const AccountPage = () => {
   const [user, setUser] = useState<UserInfo | null>(null);
+  const [games, setGames] = useState<Game[]>([]);
   const [editing, setEditing] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [name, setNome] = useState('');
-  const data = {
-    labels: ['07/07', '08/07', '09/07', '10/07', '11/07', '12/07', '13/07'],
+
+  const chartData = {
+    labels: games.map((game) => new Date(game.date).toLocaleDateString("pt-BR")),
     datasets: [
       {
-        label: 'Saldo',
-        data: [300, 450, 200, 550, 500, 650, 1000],
+        label: "Saldo após o jogo (CDB)",
+        data: games.map((game) =>
+          game.result === "WIN"
+            ? game.accountCdb + game.cdb
+            : game.accountCdb - game.cdb
+        ),
+        borderColor: "#5ce1e6",
         fill: false,
-        borderColor: '#5ce1e6',
-        tension: 0
+        tension: 0.1
       }
     ]
   };
-  const maxValue = data.datasets[0].data.reduce((a, b) => Math.max(a, b), 0);
-  const adjustedMax = Math.ceil(((maxValue) / 200) + 1) * 200;
 
-  const options = {
+  const maxValue = Math.max(...games.map((game) =>
+    game.result === "WIN"
+      ? game.accountCdb + game.cdb
+      : game.accountCdb - game.cdb
+  ),
+    0
+  );
+  const adjustedMax = Math.ceil((maxValue / 200) + 1) * 200;
+
+  const chartOptions = {
     responsive: true,
     plugins: {
       legend: { display: false },
       tooltip: { enabled: true }
     },
     scales: {
-      x: { ticks: { color: 'white' } },
+      x: { ticks: { color: "white" } },
       y: {
         min: 0,
         max: adjustedMax,
-        ticks: {
-          color: 'white',
-          stepSize: 200
-        }
+        ticks: { color: "white", stepSize: 200 }
       }
     }
   };
@@ -85,9 +106,18 @@ const AccountPage = () => {
     }
   };
 
+  const fetchGames = async () => {
+    try {
+      const response = await getAllGamesApi({ page: 0, size: 20 });
+      setGames(response.content);
+    } catch (err) {
+      console.error("Erro ao buscar jogos", err);
+    }
+  };
+
   const updateUserMethod = async () => {
     try {
-      await updateUser({name});
+      await updateUser({ name });
       fetchUser();
       alert("Nome atualizado");
     } catch (err) {
@@ -98,6 +128,7 @@ const AccountPage = () => {
 
   useEffect(() => {
     fetchUser();
+    fetchGames();
   }, []);
 
 
@@ -152,7 +183,7 @@ const AccountPage = () => {
 
         <div className="right-panel">
           <p>Histórico de jogos</p>
-          <Line data={data} options={options} />
+          <Line data={chartData} options={chartOptions} />
         </div>
       </div>
 
