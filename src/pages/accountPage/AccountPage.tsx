@@ -5,7 +5,10 @@ import saveIcon from '../../assets/saveIcon.png';
 import editPen from '../../assets/editPen.png';
 import siteLogo from '/logo.png';
 import { Line } from 'react-chartjs-2';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getUserInfoApi } from '../../api/userApi';
+import { updateUser } from '../../api/userApi';
+
 import {
   Chart as ChartJS,
   LineElement,
@@ -25,16 +28,20 @@ ChartJS.register(
   Legend
 );
 
+type UserInfo = {
+  name: string;
+  email: string;
+  cdb: number;
+  totalDeposit: number;
+  wins: number;
+  looses: number;
+}
+
 const AccountPage = () => {
-  const [pfp, setPfp] = useState<string | null>(null);
-  const [docId, setDocId] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [user, setUser] = useState<UserInfo | null>(null);
   const [editing, setEditing] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [email, setEmail] = useState(null);
-  const [phone, setPhone] = useState("(83) 99408-5691");
-  const [nome, setNome] = useState(' ');
-  const [saldo, setSaldo] = useState('0');
+  const [name, setNome] = useState('');
   const data = {
     labels: ['07/07', '08/07', '09/07', '10/07', '11/07', '12/07', '13/07'],
     datasets: [
@@ -69,9 +76,31 @@ const AccountPage = () => {
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      const data = await getUserInfoApi();
+      setUser(data);
+    } catch (err) {
+      console.error("Erro ao buscar dados do usuário", err);
+    }
+  };
+
+  const updateUserMethod = async () => {
+    try {
+      await updateUser({name});
+      fetchUser();
+      alert("Nome atualizado");
+    } catch (err) {
+      console.error("Erro ao buscar dados do usuário", err);
+    }
+    setEditing(false);
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
 
-  
 
   return (
     <div className='accountPage-container'>
@@ -85,40 +114,28 @@ const AccountPage = () => {
             {/* <h1>{`Usuário `}<b>{`#${user?.uid.substring(0, 6)}`}</b></h1> */}
 
             <div className="pfp-container">
-              <img className="pfp" src={pfp ||"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
-              <button className="edit-pfp">
-                <img src={editPen} alt="Editar foto" />
-              </button>
+              <img className="pfp" src={"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
               <input
                 type="file"
                 accept="image/*"
-                ref={fileInputRef}
-               
+
+
                 style={{ display: 'none' }}
               />
             </div>
           </div>
-          
-          <p>E-mail: <span>{email}</span></p>
+
+          <p>E-mail: <span>{user?.email}</span></p>
           {editing ? (
             <>
               <div className='editing-container'>
-                <p>Nome: <input className='editable-input' value={nome} onChange={e => { setNome(e.target.value); setHasChanges(true); }} /></p>
-              </div>
-              <div className='editing-container'>
-                <p>Telefone: <input className='editable-input' value={phone} onChange={e => { setPhone(e.target.value); setHasChanges(true); }} /></p>
+                <p>Nome: <input className='editable-input' value={name} onChange={e => { setNome(e.target.value); setHasChanges(true); }} /></p>
               </div>
             </>
           ) : (
             <>
               <div className='editing-container'>
-                <p>Nome: <span className="editable">{nome}</span></p>
-                <button className="start-edit" onClick={() => setEditing(true)}>
-                  <img src={editPen} alt="Editar dados" />
-                </button>
-              </div>
-              <div className='editing-container'>
-                <p>Telefone: <span className="editable">{phone}</span></p>
+                <p>Nome: <span className="editable">{user?.name}</span></p>
                 <button className="start-edit" onClick={() => setEditing(true)}>
                   <img src={editPen} alt="Editar dados" />
                 </button>
@@ -126,17 +143,22 @@ const AccountPage = () => {
             </>
           )}
 
-          <p>Saldo: <b>{`${saldo}`} CDB (Calangos de Bolso)</b></p>
+          <p>Saldo: <b>{`${user?.cdb}`} CDB (Calangos de Bolso)</b></p>
+          <p>Dinheiro gasto: <b>{`${user?.totalDeposit}`} R$</b></p>
+          <p>Ganhos totais: <b>{`${user?.wins}`} R$</b></p>
+          <p>Percas totais: <b>{`${user?.looses}`} R$</b></p>
         </div>
 
+
         <div className="right-panel">
+          <p>Histórico de jogos</p>
           <Line data={data} options={options} />
         </div>
       </div>
 
       {hasChanges && (
         <button className="floating-save">
-          <img src={saveIcon} alt="Salvar"/>
+          <img src={saveIcon} alt="Salvar" onClick={updateUserMethod} />
         </button>
       )}
     </div>
