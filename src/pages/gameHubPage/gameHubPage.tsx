@@ -1,4 +1,4 @@
-import './gameHubPage.scss';
+import './GameHubPage.scss';
 import MainHeader from "../../components/header/MainHeader";
 import LastPlayed from '../../components/lastPlayed/LastPlayed';
 import GamesCarretel from '../../components/gamesCarretel/GamesCarretel';
