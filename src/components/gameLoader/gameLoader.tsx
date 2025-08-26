@@ -8,18 +8,8 @@ type InputProps = {
     gameName: string;
 };
 
-const chave = "caça-niquel";
-
 function GameLoader({ gameName }: InputProps) {
     useEffect(() => {
-        if(!localStorage.getItem(chave)){
-            localStorage.setItem(chave, "true");
-        }
-        else{
-            localStorage.removeItem(chave);
-            window.location.reload();
-        }
-
         (window as any).Module = {
             print: (() => {
                 const element = document.getElementById("output") as HTMLTextAreaElement | null;
@@ -50,20 +40,25 @@ function GameLoader({ gameName }: InputProps) {
                 console.log("WASM carregado e inicializado");
 
                 window.addEventListener("GameEvent", async (event: Event) => {
-                    const custom = event as CustomEvent<{ type: string; amount: number }>;
-                    const { type, amount } = custom.detail;
+                    try{
+                        const custom = event as CustomEvent<{ type: string; amount: number }>;
+                        const { type, amount } = custom.detail;
 
-                    console.log(`Evento do jogo: ${type} ${amount}`);
-                    await postGameApi({
-                        gameName: gameName,
-                        cdb: amount,
-                        result: type as "WIN" | "LOSE"
-                    });
+                        console.log(`Evento do jogo: ${type} ${amount}`);
+                        await postGameApi({
+                            gameName: gameName,
+                            cdb: amount,
+                            result: type as "WIN" | "LOSE"
+                        });
 
-                    const element = document.getElementById("output") as HTMLTextAreaElement | null;
-                    if (element) {
-                        element.value += `${type}: ${amount}\n`;
-                        element.scrollTop = element.scrollHeight;
+                        const element = document.getElementById("output") as HTMLTextAreaElement | null;
+                        if (element) {
+                            element.value += `${type}: ${amount}\n`;
+                            element.scrollTop = element.scrollHeight;
+                        }
+                    }
+                    catch (error) {
+                        console.error("Erro:", error);
                     }
                 });
 
@@ -91,6 +86,7 @@ function GameLoader({ gameName }: InputProps) {
 
         return () => {
             document.body.removeChild(script);
+            window.location.reload();
         };
     }, []);
 
