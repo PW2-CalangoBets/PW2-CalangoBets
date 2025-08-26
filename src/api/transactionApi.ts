@@ -3,8 +3,6 @@ import api from "./axios";
 export type TransactionRequest = {
     operation: "DEPOSIT" | "WITHDRAW";
     value: number;
-    accountCdb: number;
-    date: string;
 };
 
 export type TransactionResponse = {

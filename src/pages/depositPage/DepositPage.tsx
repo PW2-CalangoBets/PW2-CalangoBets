@@ -5,12 +5,21 @@ import CommonButton from '../../components/common/commonButton/CommonButton';
 import ItemList from '../../components/itemList/ItemList';
 import { useEffect, useState } from 'react';
 import { createTransactionApi, getTransactionsApi } from '../../api/transactionApi';
-
-type transactionType = {
+import { getUserInfoApi } from "../../api/userApi";
+type TransactionType = {
     operation: string,
     date: string,
     value: number,
     accountCdb: number
+}
+
+type UserInfo = {
+  name: string;
+  email: string;
+  cdb: number;
+  totalDeposit: number;
+  wins: number;
+  looses: number;
 }
 
 const DepositPage = () => {
@@ -18,25 +27,31 @@ const DepositPage = () => {
     const [operationQuantity, setOperationQuantity] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
-    const [transactions, setTransactions] = useState<transactionType[]>([]);
+    const [transactions, setTransactions] = useState<TransactionType[]>([]);
+    const [user, setUser] = useState<UserInfo | null>(null);
 
-    // Buscar histórico real do backend ao carregar a página
+    const fetchUser = async () => {
+        try {
+            const data = await getUserInfoApi();
+            setUser(data);
+            setActualMoneyAmount(data.cdb);
+            console.log(user?.name);
+        } catch (err) {
+            console.error("Erro ao buscar dados do usuário", err);
+        }
+    };
+
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
                 const data = await getTransactionsApi();
                 setTransactions(data);
-                // Atualiza o saldo com o último valor do histórico, se houver
-                if (data.length > 0) {
-                    setActualMoneyAmount(data[data.length - 1].accountCdb);
-                } else {
-                    setActualMoneyAmount(0);
-                }
             } catch {
                 setTransactions([]);
                 setActualMoneyAmount(0);
             }
         };
+        fetchUser();
         fetchTransactions();
     }, []);
 
@@ -47,43 +62,19 @@ const DepositPage = () => {
 
     const handleThicketsAmount = async () => {
         if (operationQuantity > 0) {
-            // Sempre use o saldo do último registro do histórico
-            let lastAccountCdb = 0;
-            if (transactions.length > 0) {
-                lastAccountCdb = transactions[transactions.length - 1].accountCdb;
-            }
+            const operation: "DEPOSIT" | "WITHDRAW" = activeTab === "deposit" ? "DEPOSIT" : "WITHDRAW";
 
-            let newAmount = lastAccountCdb;
-            let operation = '';
-            if (activeTab === "deposit") {
-                newAmount += operationQuantity;
-                operation = "DEPOSIT";
-            } else {
-                if (lastAccountCdb - operationQuantity < 0) {
-                    alert("Quantidade insuficiente para operação");
-                    return;
-                } else {
-                    newAmount -= operationQuantity;
-                    operation = "WITHDRAW";
-                }
-            }
             try {
                 await createTransactionApi({
-                    operation: operation as "DEPOSIT" | "WITHDRAW",
-                    value: operationQuantity,
-                    accountCdb: newAmount,
-                    date: new Date().toISOString(),
+                    operation,
+                    value: operationQuantity
                 });
-                // Após registrar, busque o histórico atualizado do backend
+
                 const data = await getTransactionsApi();
                 setTransactions(data);
-                if (data.length > 0) {
-                    setActualMoneyAmount(data[data.length - 1].accountCdb);
-                } else {
-                    setActualMoneyAmount(0);
-                }
-            } catch (error: any) {
-                alert("Erro ao registrar transação no servidor: " + (error?.response?.data?.message || error.message));
+                fetchUser();
+            } catch (error) {
+                alert("Erro ao registrar transação no servidor: " + error);
             }
         } else {
             alert("Insira um número válido");
@@ -92,7 +83,7 @@ const DepositPage = () => {
 
     return (
         <div className="DepositPage-container">
-            <MainHeader/>
+            <MainHeader />
 
             <div className='actual-Money-container'>
                 <div className='actual-Money-div'>
@@ -119,14 +110,14 @@ const DepositPage = () => {
                         <p>Saldo da conta</p>
                     </div>
                     {transactions.length > 0 && transactions.map((element, index) => (
-                    <ItemList
-                        key={index}
-                        operation={element.operation}
-                        date={new Date(element.date).toLocaleString('pt-BR')}
-                        value={`R$ ${Number(element.value).toLocaleString('pt-BR')}`}
-                        accountTotal={`R$ ${Number(element.accountCdb).toLocaleString('pt-BR')}`}
-                    />
-                ))}
+                        <ItemList
+                            key={index}
+                            operation={element.operation}
+                            date={new Date(element.date).toLocaleString('pt-BR')}
+                            value={Number(element.value)}
+                            accountTotal={Number(element.accountCdb)}
+                        />
+                    ))}
                 </div>
             </div>
 
@@ -137,7 +128,7 @@ const DepositPage = () => {
                         handleThicketsAmount();
                         setIsModalOpen(false);
                     }}
-                    onChangeValue={(value: number) => { setOperationQuantity(value) }}
+                    onChangeValue={(value: number) => setOperationQuantity(value)}
                     onClose={() => setIsModalOpen(false)}
                 />
             )}
