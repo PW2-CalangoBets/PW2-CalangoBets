@@ -47,11 +47,6 @@ const availableGames = [
     name: "Em breve",
     image: "./src/assets/games/em-breve.webp",
     subtitle: "Calango Bet"
-  },
-  {
-    name: "Em breve",
-    image: "./src/assets/games/em-breve.webp",
-    subtitle: "Calango Bet"
   }
 ];
 
