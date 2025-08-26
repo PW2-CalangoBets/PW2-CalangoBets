@@ -4,12 +4,22 @@ import DepositModal from '../../components/depositModal/DepositModal';
 import CommonButton from '../../components/common/commonButton/CommonButton';
 import ItemList from '../../components/itemList/ItemList';
 import { useEffect, useState } from 'react';
-
-type transactionType = {
+import { createTransactionApi, getTransactionsApi } from '../../api/transactionApi';
+import { getUserInfoApi } from "../../api/userApi";
+type TransactionType = {
     operation: string,
     date: string,
     value: number,
-    accountTotal: number
+    accountCdb: number
+}
+
+type UserInfo = {
+  name: string;
+  email: string;
+  cdb: number;
+  totalDeposit: number;
+  wins: number;
+  looses: number;
 }
 
 const DepositPage = () => {
@@ -17,62 +27,63 @@ const DepositPage = () => {
     const [operationQuantity, setOperationQuantity] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw'>('deposit');
-    const [transactions, setTransactions] = useState<transactionType[]>([]);
+    const [transactions, setTransactions] = useState<TransactionType[]>([]);
+    const [user, setUser] = useState<UserInfo | null>(null);
+
+    const fetchUser = async () => {
+        try {
+            const data = await getUserInfoApi();
+            setUser(data);
+            setActualMoneyAmount(data.cdb);
+            console.log(user?.name);
+        } catch (err) {
+            console.error("Erro ao buscar dados do usuário", err);
+        }
+    };
 
     useEffect(() => {
-        setTransactions([{
-            operation: "Depósito",
-            date: "12/12/2024",
-            value: 100,
-            accountTotal: 200
-        }]);
+        const fetchTransactions = async () => {
+            try {
+                const data = await getTransactionsApi();
+                setTransactions(data);
+            } catch {
+                setTransactions([]);
+                setActualMoneyAmount(0);
+            }
+        };
+        fetchUser();
+        fetchTransactions();
     }, []);
+
     const handleOpenModal = (operation: 'deposit' | 'withdraw') => {
         setActiveTab(operation);
         setIsModalOpen(true);
-    }
+    };
 
-    const handleThicketsAmount = () => {
+    const handleThicketsAmount = async () => {
         if (operationQuantity > 0) {
-            if (activeTab == "deposit") {
-                setActualMoneyAmount(actualMoneyAmount + operationQuantity);
-                handleCreateNewHistoric();
-            } else {
-                if (actualMoneyAmount - operationQuantity < 0) {
-                    alert("Quantidade insuficiente para operação")
-                }
-                else {
-                    setActualMoneyAmount(actualMoneyAmount - operationQuantity);
-                    handleCreateNewHistoric();
-                }
+            const operation: "DEPOSIT" | "WITHDRAW" = activeTab === "deposit" ? "DEPOSIT" : "WITHDRAW";
+
+            try {
+                await createTransactionApi({
+                    operation,
+                    value: operationQuantity
+                });
+
+                const data = await getTransactionsApi();
+                setTransactions(data);
+                fetchUser();
+            } catch (error) {
+                alert("Erro ao registrar transação no servidor: " + error);
             }
         } else {
             alert("Insira um número válido");
         }
-
-    }
-
-    const handleCreateNewHistoric = () => {
-        transactions.push({
-            operation: handleActiveTabNameToString(),
-            date: new Date(Date.now()).toLocaleDateString().slice(0, 10),
-            value: operationQuantity,
-            accountTotal: actualMoneyAmount
-        });
-    }
-
-    const handleActiveTabNameToString = () => {
-        switch (activeTab) {
-            case ("deposit"):
-                return "Depósito";
-            case ("withdraw"):
-                return "Saque";
-        }
-    }
+    };
 
     return (
         <div className="DepositPage-container">
-            <MainHeader/>
+            <MainHeader />
 
             <div className='actual-Money-container'>
                 <div className='actual-Money-div'>
@@ -102,9 +113,9 @@ const DepositPage = () => {
                         <ItemList
                             key={index}
                             operation={element.operation}
-                            date={element.date}
-                            value={element.value}
-                            accountTotal={element.accountTotal}
+                            date={new Date(element.date).toLocaleString('pt-BR')}
+                            value={Number(element.value)}
+                            accountTotal={Number(element.accountCdb)}
                         />
                     ))}
                 </div>
@@ -117,7 +128,7 @@ const DepositPage = () => {
                         handleThicketsAmount();
                         setIsModalOpen(false);
                     }}
-                    onChangeValue={(value: number) => { setOperationQuantity(value) }}
+                    onChangeValue={(value: number) => setOperationQuantity(value)}
                     onClose={() => setIsModalOpen(false)}
                 />
             )}

@@ -1,4 +1,4 @@
-import './AllMemberCards.scss';
+import './allMemberCards.scss';
 import MemberCard from '../cards/memberCard/MemberCard';
 
 const AllMemberCards = () => {
