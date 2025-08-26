@@ -8,8 +8,18 @@ type InputProps = {
     gameName: string;
 };
 
+const chave = "caça-niquel";
+
 function GameLoader({ gameName }: InputProps) {
     useEffect(() => {
+        if(!localStorage.getItem(chave)){
+            localStorage.setItem(chave, "true");
+        }
+        else{
+            localStorage.removeItem(chave);
+            window.location.reload();
+        }
+
         (window as any).Module = {
             print: (() => {
                 const element = document.getElementById("output") as HTMLTextAreaElement | null;
@@ -47,7 +57,7 @@ function GameLoader({ gameName }: InputProps) {
                     await postGameApi({
                         gameName: gameName,
                         cdb: amount,
-                        result: type as "WIN" | "LOSE"  // ← Type assertion
+                        result: type as "WIN" | "LOSE"
                     });
 
                     const element = document.getElementById("output") as HTMLTextAreaElement | null;
