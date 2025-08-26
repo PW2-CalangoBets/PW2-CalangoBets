@@ -26,10 +26,21 @@ type GetAllGamesParams = {
     size?: number;
 };
 
+export type PostGameRequest = {
+  gameName: string;
+  cdb: number;
+  result: "WIN" | "LOSE";
+};
+
 export const getAllGamesApi = async (params: GetAllGamesParams = {}): Promise<PaginatedResponse<GameHistory>> => {
     const { data } = await api.get<PaginatedResponse<GameHistory>>("/api/game", {
         params, 
     });
 
     return data;
+};
+
+export const postGameApi = async (gameData: PostGameRequest): Promise<GameHistory> => {
+  const { data } = await api.post<GameHistory>("/api/game", gameData);
+  return data;
 };

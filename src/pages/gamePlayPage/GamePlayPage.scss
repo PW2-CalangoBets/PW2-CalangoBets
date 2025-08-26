@@ -1,0 +1,47 @@
+/* desgraca de super css */
+
+@font-face {
+  font-family: 'CodecPro';
+  src: url('../../assets/fonts/CodecPro.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.game-play-page-container {
+    font-family: 'CodecPro';
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--primary-background);
+
+    h2 {
+        font-family: 'CodecPro';
+        font-weight: 100;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-family: 'CodecPro';
+        color: var(--primary-font-color);
+        font-size: 1.25rem;
+    }
+
+    .occupy-width-50 {
+        width: 50%;
+    }
+
+    .occupy-height-100 {
+        height: 100%;
+    }
+
+    .games-content-wrapper {
+        display: flex;
+    }
+
+    .games-carretel-column {
+        display: flex;
+        flex-direction: column;
+    }
+  }
