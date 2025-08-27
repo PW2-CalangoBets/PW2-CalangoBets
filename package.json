@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "install-playwright": "npx playwright install",
-    "integration-test": "start-server-and-test dev http://localhost:5173 'npx playwright test --headed'",
+    "integration-test": "start-server-and-test dev http://localhost:5173 'npx playwright test --workers=1 --headed'",
     "unit-test": "jest",
     "test": "npm run unit-test && npm run integration-test"
   },

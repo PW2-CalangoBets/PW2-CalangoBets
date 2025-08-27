@@ -1,26 +1,29 @@
 import { test, expect } from '@playwright/test';
 import { getUserInfoApi } from '../../api/userApi';
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  workers: 1,
+});
 test.beforeEach(async ({ page }) => {
-  // Vai para tela de login
+
   await page.goto("http://localhost:5173/#/signUp");
 
-  // Preenche credenciais
+
   await page.fill('input[id="name"]', "UsuarioTeste");
   await page.fill('input[id="email"]', "teste@gmail.com");
   await page.fill('input[id="password"]', "123456");
   await page.fill('input[id="confirmPassword"]', "123456");
 
-  // Submete login
   await page.click('button[type="submit"]');
 
   await page.goto('http://localhost:5173/#/login'); 
   await page.fill('input[id="email"]', "teste@gmail.com");
   await page.fill('input[id="password"]', "123456");
 
-  // Submete login
+  
  await page.click('button[type="submit"]');
 
-  // Aguarda que redirecione / mostre dashboard
   await expect(page.getByText('Sua sorte começa aqui!')).toBeVisible();
 });
 
