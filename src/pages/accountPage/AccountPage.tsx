@@ -1,12 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+
 import MainHeader from '../../components/header/MainHeader';
 import './accountPage.scss';
 import saveIcon from '../../assets/saveIcon.png';
-import { auth, db } from "../../database/firebase";
-import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import editPen from '../../assets/editPen.png';
 import siteLogo from '/logo.png';
 import { Line } from 'react-chartjs-2';
+import { useEffect, useState } from 'react';
+import { getUserInfoApi } from '../../api/userApi';
+import { updateUser } from '../../api/userApi';
+import { getAllGamesApi } from '../../api/gameApi';
+
 import {
   Chart as ChartJS,
   LineElement,
@@ -26,119 +29,109 @@ ChartJS.register(
   Legend
 );
 
+export type Game = {
+  id: string;
+  playerId: string;
+  gameName: string;
+  date: string;
+  accountCdb: number;
+  cdb: number;
+  result: "WIN" | "LOSE";
+};
+
+type UserInfo = {
+  name: string;
+  email: string;
+  cdb: number;
+  totalDeposit: number;
+  wins: number;
+  looses: number;
+}
+
 const AccountPage = () => {
-  const user = auth.currentUser;
-  const [pfp, setPfp] = useState<string | null>(null);
-  const [docId, setDocId] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [user, setUser] = useState<UserInfo | null>(null);
+  const [games, setGames] = useState<Game[]>([]);
   const [editing, setEditing] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [email, setEmail] = useState(user?.email);
-  const [phone, setPhone] = useState("(83) 99408-5691");
-  const [nome, setNome] = useState(' ');
-  const [saldo, setSaldo] = useState('0');
-  const data = {
-    labels: ['07/07', '08/07', '09/07', '10/07', '11/07', '12/07', '13/07'],
+  const [name, setNome] = useState('');
+
+  const chartData = {
+    labels: games.map((game) => new Date(game.date).toLocaleDateString("pt-BR")),
     datasets: [
       {
-        label: 'Saldo',
-        data: [300, 450, 200, 550, 500, 650, 1000],
+        label: "Saldo após o jogo (CDB)",
+        data: games.map((game) =>
+          game.result === "WIN"
+            ? game.accountCdb + game.cdb
+            : game.accountCdb - game.cdb
+        ),
+        borderColor: "#5ce1e6",
         fill: false,
-        borderColor: '#5ce1e6',
-        tension: 0
+        tension: 0.1
       }
     ]
   };
-  const maxValue = data.datasets[0].data.reduce((a, b) => Math.max(a, b), 0);
-  const adjustedMax = Math.ceil(((maxValue) / 200) + 1) * 200;
 
-  const options = {
+  const maxValue = Math.max(...games.map((game) =>
+    game.result === "WIN"
+      ? game.accountCdb + game.cdb
+      : game.accountCdb - game.cdb
+  ),
+    0
+  );
+  const adjustedMax = Math.ceil((maxValue / 200) + 1) * 200;
+
+  const chartOptions = {
     responsive: true,
     plugins: {
       legend: { display: false },
       tooltip: { enabled: true }
     },
     scales: {
-      x: { ticks: { color: 'white' } },
+      x: { ticks: { color: "white" } },
       y: {
         min: 0,
         max: adjustedMax,
-        ticks: {
-          color: 'white',
-          stepSize: 200
-        }
+        ticks: { color: "white", stepSize: 200 }
       }
     }
   };
 
-  useEffect(() => {
-      const fetchPfp = async () => {
-          if (!user?.email) return;
-
-          // tenta pegar do localStorage
-          const cachedPfp = localStorage.getItem(`pfp-${user.email}`);
-          if (cachedPfp) {
-              setPfp(cachedPfp);
-          }
-
-          // busca do Firestore se não tiver no cache
-          const q = query(collection(db, "contas"), where("email", "==", user.email));
-          const querySnapshot = await getDocs(q);
-
-          querySnapshot.forEach((d) => {
-              const data = d.data();
-              if (data.nome) setNome(data.nome);
-              if (data.telefone) setPhone(data.telefone);
-              if (data.saldo) setSaldo(data.saldo);
-              if (data.pfp) {
-                  if (data.pfp == cachedPfp) return;
-                  setPfp(data.pfp);
-                  localStorage.setItem(`pfp-${user.email}`, data.pfp); // salva no cache
-              }
-          });
-      };
-
-      fetchPfp();
-  }, [user]);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!docId || !e.target.files) return;
-
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64String = reader.result as string;
-
-      await updateDoc(doc(db, "contas", docId), { pfp: base64String });
-      setPfp(base64String);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleChangePhoto = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleSave = async () => {
-    console.log(email);
-    if (!email) return;
-
-    const q = query(collection(db, "contas"), where("email", "==", email));
-    const snapshot = await getDocs(q);
-
-    if (!snapshot.empty) {
-      const docRef = snapshot.docs[0].ref;
-      await updateDoc(docRef, {
-        nome: nome,
-        telefone: phone
-      });
+  const fetchUser = async () => {
+    try {
+      const data = await getUserInfoApi();
+      setUser(data);
+    } catch (err) {
+      console.error("Erro ao buscar dados do usuário", err);
     }
-
-    setHasChanges(false);
-    setEditing(false);
   };
+
+  const fetchGames = async () => {
+    try {
+      const response = await getAllGamesApi({ page: 0, size: 20 });
+      setGames(response.content);
+    } catch (err) {
+      console.error("Erro ao buscar jogos", err);
+    }
+  };
+
+  const updateUserMethod = async () => {
+    try {
+      await updateUser({ name });
+      fetchUser();
+      alert("Nome atualizado");
+    } catch (err) {
+      console.error("Erro ao buscar dados do usuário", err);
+    }
+    setEditing(false);
+  }
+
+  useEffect(() => {
+    fetchUser();
+    fetchGames();
+  }, []);
+
+
 
   return (
     <div className='accountPage-container'>
@@ -149,43 +142,31 @@ const AccountPage = () => {
       <div className="account-content">
         <div className="left-panel">
           <div className='pfp-and-name-container'>
-            <h1>{`Usuário `}<b>{`#${user?.uid.substring(0, 6)}`}</b></h1>
+            {/* <h1>{`Usuário `}<b>{`#${user?.uid.substring(0, 6)}`}</b></h1> */}
 
             <div className="pfp-container">
-              <img className="pfp" src={pfp ||"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
-              <button className="edit-pfp" onClick={handleChangePhoto}>
-                <img src={editPen} alt="Editar foto" />
-              </button>
+              <img className="pfp" src={"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} alt="Foto de perfil" />
               <input
                 type="file"
                 accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFileChange}
+
+
                 style={{ display: 'none' }}
               />
             </div>
           </div>
-          
-          <p>E-mail: <span>{email}</span></p>
+
+          <p>E-mail: <span>{user?.email}</span></p>
           {editing ? (
             <>
               <div className='editing-container'>
-                <p>Nome: <input className='editable-input' value={nome} onChange={e => { setNome(e.target.value); setHasChanges(true); }} /></p>
-              </div>
-              <div className='editing-container'>
-                <p>Telefone: <input className='editable-input' value={phone} onChange={e => { setPhone(e.target.value); setHasChanges(true); }} /></p>
+                <p>Nome: <input className='editable-input' value={name} onChange={e => { setNome(e.target.value); setHasChanges(true); }} /></p>
               </div>
             </>
           ) : (
             <>
               <div className='editing-container'>
-                <p>Nome: <span className="editable">{nome}</span></p>
-                <button className="start-edit" onClick={() => setEditing(true)}>
-                  <img src={editPen} alt="Editar dados" />
-                </button>
-              </div>
-              <div className='editing-container'>
-                <p>Telefone: <span className="editable">{phone}</span></p>
+                <p>Nome: <span className="editable">{user?.name}</span></p>
                 <button className="start-edit" onClick={() => setEditing(true)}>
                   <img src={editPen} alt="Editar dados" />
                 </button>
@@ -193,17 +174,22 @@ const AccountPage = () => {
             </>
           )}
 
-          <p>Saldo: <b>{`${saldo}`} CDB (Calangos de Bolso)</b></p>
+          <p>Saldo: <b>{`${user?.cdb}`} CDB (Calangos de Bolso)</b></p>
+          <p>Dinheiro gasto: <b>{`${user?.totalDeposit}`} R$</b></p>
+          <p>Ganhos totais: <b>{`${user?.wins}`} R$</b></p>
+          <p>Percas totais: <b>{`${user?.looses}`} R$</b></p>
         </div>
 
+
         <div className="right-panel">
-          <Line data={data} options={options} />
+          <p>Histórico de jogos</p>
+          <Line data={chartData} options={chartOptions} />
         </div>
       </div>
 
       {hasChanges && (
-        <button className="floating-save" onClick={handleSave}>
-          <img src={saveIcon} alt="Salvar"/>
+        <button className="floating-save">
+          <img src={saveIcon} alt="Salvar" onClick={updateUserMethod} />
         </button>
       )}
     </div>

@@ -5,60 +5,48 @@ import GamesCarretel from '../../components/gamesCarretel/GamesCarretel';
 
 const userLastGames = [
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger"
+    name: "Caça Níquel",
+    image: "./src/assets/games/caca-niquel.jpg",
+    link: "/#/jogos/caca-niquel"
   }
 ];
 
 const availableGames = [
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PG SOFT"
+    name: "Caça Níquel",
+    image: "./src/assets/games/caca-niquel.jpg",
+    link: "/#/jogos/caca-niquel",
+    subtitle: "Calango Bet"
   },
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PG SOFT"
+    name: "Em breve",
+    image: "./src/assets/games/em-breve.webp",
+    subtitle: "Calango Bet"    
   },
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PRAGMATIC PLAY"
+    name: "Em breve",
+    image: "./src/assets/games/em-breve.webp",
+    subtitle: "Calango Bet"
   },
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PRAGMATIC PLAY"
+    name: "Em breve",
+    image: "./src/assets/games/em-breve.webp",
+    subtitle: "Calango Bet"
   },
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PG SOFT"
+    name: "Em breve",
+    image: "./src/assets/games/em-breve.webp",
+    subtitle: "Calango Bet"
   },
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PG SOFT"
+    name: "Em breve",
+    image: "./src/assets/games/em-breve.webp",
+    subtitle: "Calango Bet"
   },
   {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PRAGMATIC PLAY"
-  },
-  {
-    name: "Fortune Tiger",
-    image: "./src/assets/games/fortune-tiger.webp",
-    link: "/#/jogos/fortune-tiger",
-    subtitle: "PRAGMATIC PLAY"
+    name: "Em breve",
+    image: "./src/assets/games/em-breve.webp",
+    subtitle: "Calango Bet"
   }
 ];
 

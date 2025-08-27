@@ -1,30 +1,32 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../database/firebase";
 import { useNavigate } from "react-router-dom";
 import formIcon from "../../../assets/roulette.png";
+import { useDispatch } from "react-redux";
+import { loginApi } from "../../../api/authApi";
+import { loginSuccess } from "../../../store/authSlice";
 import "../authPages.scss";
-import LogInForm from "../../../components/authForms/logInForm/LogInForm";
+import LogInForm from "../../../components/authForms/logInForm/LogInForm"
+import type { AppDispatch } from "../../../store/store";
 
 export default function LogInPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            console.log("Usuário logado:", user);
-            sessionStorage.setItem("email", email);
-            navigate("/");
+            const { token } = await loginApi({ email, password });
+            dispatch(loginSuccess(token));
+            localStorage.setItem("token", token);
+            navigate("/"); 
         } catch (err) {
             console.error(err);
-            setError("Email ou senha inválidos.");
+            setError("Usuário ou senha inválidos");
         }
     };
 

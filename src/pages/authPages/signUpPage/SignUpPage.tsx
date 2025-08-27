@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../../database/firebase";
 import formIcon from "../../../assets/roulette.png";
 import "../authPages.scss";
 import { useNavigate } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
 import SignUpForm from "../../../components/authForms/signUpForm/signUpForm";
+import { signUpApi } from "../../../api/authApi";
+import { AxiosError } from "axios";
 
 export default function SignUpPage() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,29 +27,23 @@ export default function SignUpPage() {
         }
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            if (user.email) {
-                sessionStorage.setItem("email", user.email.toLowerCase());
-
-                await setDoc(doc(db, "contas", userCredential.user.uid), {
-                    email: email,
-                    saldo: 500,
-                });
-            }
-
-            setSuccess("Conta criada com sucesso!");
-            navigate("/");
+            await signUpApi({ name, email, password })
+            navigate("/login");
         } catch (err) {
-            console.error(err);
-            setError("Erro ao criar conta.");
+            const error = err as AxiosError<{ message: string }>;
+            if (error.response?.data?.message) {
+                setError(error.response.data.message);
+            } else {
+                setError("Erro ao cadastrar usuário.");
+            }
         }
     };
 
     return (
         <div className="signup-container">
             <SignUpForm
+                name={name}
+                setName={setName}
                 handleSubmit={handleSubmit}
                 email={email}
                 setEmail={setEmail}

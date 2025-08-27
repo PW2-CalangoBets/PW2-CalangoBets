@@ -1,0 +1,16 @@
+.emscripten {
+  background-color: black;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+}
+
+#output {
+  width: 800px;
+  height: 150px;
+  margin: 0 auto;
+  background: black;
+  color: white;
+}

@@ -4,6 +4,8 @@ import backwardsArrow from '../../../assets/backwardsArrow.png';
 
 type SignUpFormProps = {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    name: string,
+    setName:React.Dispatch<React.SetStateAction<string>>;
     email: string;
     setEmail: React.Dispatch<React.SetStateAction<string>>;
     password: string;
@@ -15,7 +17,7 @@ type SignUpFormProps = {
     image: string;
 }
 
-const SignUpForm = ({ handleSubmit, email, setEmail, password, setPassword, confirmPassword, setConfirmPassword, error, success, image }: SignUpFormProps) => {
+const SignUpForm = ({ handleSubmit, name, setName, email, setEmail, password, setPassword, confirmPassword, setConfirmPassword, error, success, image }: SignUpFormProps) => {
     return (
         <form onSubmit={handleSubmit} className="authentication-form">
             {error && <div className="error-msg">{error}</div>}
@@ -29,6 +31,15 @@ const SignUpForm = ({ handleSubmit, email, setEmail, password, setPassword, conf
 
                     <img className="signup-form-img" src={image} alt="Little Aipom" />
                 </div>
+
+                <label htmlFor="name">&nbsp;&nbsp;Nome</label>
+                <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
 
                 <label htmlFor="email">&nbsp;&nbsp;E-mail</label>
                 <input

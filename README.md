@@ -28,16 +28,8 @@ cd PW2-CalangoBets
 
 ### 2. Configure as variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto com as seguintes informações do Firebase:
-
-```env
-VITE_FIREBASE_API_KEY=<Ex.: ZazasRfDeKzraCec9eav-MnoFFTRuXHL758yV1as>
-VITE_FIREBASE_AUTH_DOMAIN=<Ex.: bet.firebaseapp.com>
-VITE_FIREBASE_PROJECT_ID=<Ex.: bet>
-VITE_FIREBASE_STORAGE_BUCKET=<Ex.: bet.firebasestorage.app>
-VITE_FIREBASE_MESSAGING_SENDER_ID=<Ex.: 839228193457>
-VITE_FIREBASE_APP_ID=<Ex.: 2:345790212345:web:b202de0acc5d4da0227445>
-```
+Para rodar essa aplicação você precisa do back-end da calangoBets rodando em paralelo, para isso siga os passos de instalação da API, que está na seguinte url https://github.com/PW2-CalangoBets/CalangoBets-Backend.git
+Além disso, configure a url em que a API está rodando, no arquivo axios, contendo a url, que normalmente será locahost:8080
 
 ### 3. Instale as dependências
 
